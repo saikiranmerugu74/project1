@@ -22,7 +22,6 @@ pipeline {
                 }
             }
         }
-
         stage('Push To DockerHub') {
             steps {
                 script {
@@ -32,12 +31,12 @@ pipeline {
                 }
             }
         }
-        
         stage('Deploy') {
-           steps {
+            steps {
                 script {
                     dockerImage.run("-p 8000:8000 -rm --name mypythonapp")
-          }
+                }
+            }
         }
     }
 }
