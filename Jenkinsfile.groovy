@@ -35,7 +35,8 @@ pipeline {
         
         stage('Deploy') {
            steps {
-                sh label: '', script: "sudo docker run -d --name ${JOB_NAME} -p 5000:5000 ${img}"
+                script {
+                    dockerImage.run("-p 8000:8000 -rm --name mypythonapp")
           }
         }
     }
