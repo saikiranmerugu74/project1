@@ -1,6 +1,6 @@
 pipeline {
     environment {
-        registry = "saikiranmerugu74/sai1:10" //To push an image to Docker Hub, you must first name your local image using your Docker Hub username and the repository name that you created through Docker Hub on the web.
+        registry = "saikiranmerugu74/mypythonapp" //To push an image to Docker Hub, you must first name your local image using your Docker Hub username and the repository name that you created through Docker Hub on the web.
         registryCredential = 'dockerhub_id'
         //githubCredential = 'GITHUB'
         dockerImage = ''
@@ -13,13 +13,6 @@ pipeline {
                 extensions: [],
                 userRemoteConfigs: [[url: 'https://github.com/saikiranmerugu74/project1.git']]) 
                 
-            }
-        }
-        stage ('Clean Up'){
-            steps{
-                sh returnStatus: true, script: 'sudo docker stop $(docker ps -a | grep ${JOB_NAME} | awk \'{print $1}\')'
-                sh returnStatus: true, script: 'sudo docker rmi $(docker images | grep ${registry} | awk \'{print $3}\') --force' //this will delete all images
-                sh returnStatus: true, script: 'sudo docker rm ${JOB_NAME}'
             }
         }
         stage('Build Image') {
