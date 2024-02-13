@@ -18,7 +18,9 @@ pipeline {
         stage('Build Image') {
             steps {
                 script {
-                    dockerImage = docker.build registry
+                    img = registry + ":${env.BUILD_ID}"
+                    println ("${img}")
+                    dockerImage = docker.build("${img}")
                 }
             }
         }
@@ -33,9 +35,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                script {
-                    dockerImage.run("-p 8000:8000 -rm --name mypythonapp")
-                }
+                sh label: '', script: "docker run -d --name ${JOB_NAME} -p 5000:5000 ${img}"
             }
         }
     }
