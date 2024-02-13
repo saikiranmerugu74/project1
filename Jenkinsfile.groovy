@@ -17,9 +17,9 @@ pipeline {
         }
         stage ('Clean Up'){
             steps{
-                sh returnStatus: true, script: 'docker stop $(docker ps -a | grep ${JOB_NAME} | awk \'{print $1}\')'
-                sh returnStatus: true, script: 'docker rmi $(docker images | grep ${registry} | awk \'{print $3}\') --force' //this will delete all images
-                sh returnStatus: true, script: 'docker rm ${JOB_NAME}'
+                sh returnStatus: true, script: 'sudo docker stop $(docker ps -a | grep ${JOB_NAME} | awk \'{print $1}\')'
+                sh returnStatus: true, script: 'sudo docker rmi $(docker images | grep ${registry} | awk \'{print $3}\') --force' //this will delete all images
+                sh returnStatus: true, script: 'sudo docker rm ${JOB_NAME}'
             }
         }
         stage('Build Image') {
@@ -44,7 +44,7 @@ pipeline {
         
         stage('Deploy') {
            steps {
-                sh label: '', script: "docker run -d --name ${JOB_NAME} -p 5000:5000 ${img}"
+                sh label: '', script: "sudo docker run -d --name ${JOB_NAME} -p 5000:5000 ${img}"
           }
         }
     }
