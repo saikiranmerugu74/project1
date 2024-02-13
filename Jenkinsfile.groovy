@@ -17,7 +17,7 @@ pipeline {
         }
         stage ('Test'){
                 steps {
-                sh "pytest pytestcase.py"
+                sh "pytest pytesttestcase.py"
                 }
         }
         stage ('Clean Up'){
