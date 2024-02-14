@@ -18,7 +18,7 @@ pipeline {
         }
         stage ('Test'){
                 steps {
-                    sh "pytest pytesttestcase.py"
+                    sh "/home/ubuntu/.local/lib/python3.10/site-packages pytesttestcase.py"
                 }
         }
         stage ('Clean Up'){
