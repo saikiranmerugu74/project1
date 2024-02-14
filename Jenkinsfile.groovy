@@ -47,7 +47,7 @@ pipeline {
         }
         stage ('Test'){
                 steps {
-                sh "pytest pytesttestcase.py"
+                sh "py.pytesttestcase.py"
                 }
         }
     }
