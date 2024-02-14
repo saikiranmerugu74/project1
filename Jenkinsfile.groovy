@@ -4,6 +4,7 @@ pipeline {
         registryCredential = 'dockerhub_id'
         //githubCredential = 'GITHUB'
         dockerImage = ''
+        PATH = " /home/ubuntu/.local/lib/python3.10/site-packages:$PATH"
     }
     agent any
     stages {
@@ -47,7 +48,7 @@ pipeline {
         }
         stage ('Test'){
                 steps {
-                sh "pytest pytesttestcase.py"
+                    sh "pytest pytesttestcase.py"
                 }
         }
     }
