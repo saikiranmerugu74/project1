@@ -32,6 +32,12 @@ pipeline {
                 }
             }
         }
+        stage ('Test'){
+            steps {
+                sh "ls"
+                sh "py.test pytesttestcase.py"
+            }
+        }
         stage('Push To DockerHub') {
             steps {
                 script {
@@ -45,11 +51,6 @@ pipeline {
             steps {
                 sh label: '', script: "docker run -d --name ${JOB_NAME} -p 8000:5000 ${img}"
             }
-        }
-        stage ('Test'){
-                steps {
-                    sh "py.test pytesttestcase.py"
-                }
         }
     }
 }
