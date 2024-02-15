@@ -32,12 +32,7 @@ pipeline {
                 }
             }
         }
-        stage ('Test'){
-            steps {
-                sh "ls"
-                sh "python3 -m pytest"
-            }
-        }
+      
         stage('Push To DockerHub') {
             steps {
                 script {
@@ -50,6 +45,12 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh label: '', script: "docker run -d --name ${JOB_NAME} -p 8000:5000 ${img}"
+            }
+        }
+        stage ('Test'){
+            steps {
+                sh "ls"
+                sh "python3 -m pytest"
             }
         }
     }
