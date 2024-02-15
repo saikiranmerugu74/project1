@@ -50,7 +50,7 @@ pipeline {
         stage ('Test'){
             steps {
                 sh "ls"
-                sh "python3 -m pytest"
+                sh "python3 -m pytest pytesttestcase.py"
             }
         }
     }
