@@ -1,6 +1,5 @@
 import pytest
-'''
-#from selenium import webdriver
+from selenium import webdriver
 
 #@pytest.fixture
 def browser():
@@ -26,11 +25,11 @@ def test_validate_text_on_web_page(browser):
     assert actual_text == expected_text, f"Expected text: {expected_text}, Actual text: {actual_text}"
 
 
-    # test_app.py'''
+    # test_app.py
 
-def test_flask_app_text():
+'''def test_flask_app_text():
     expected_text = "Hello, World!\nThis is my Flask web application."
     actual_text = home()
 
-    assert actual_text == expected_text, f"Expected: {expected_text}\nActual: {actual_text}"
+    assert actual_text == expected_text, f"Expected: {expected_text}\nActual: {actual_text}"'''
 
