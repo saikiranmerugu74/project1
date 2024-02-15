@@ -35,7 +35,7 @@ pipeline {
         stage ('Test'){
             steps {
                 sh "ls"
-                sh "py.test pytesttestcase.py"
+                sh "python3 -m pytest"
             }
         }
         stage('Push To DockerHub') {
