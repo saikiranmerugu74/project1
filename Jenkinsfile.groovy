@@ -6,7 +6,7 @@ pipeline {
         dockerImage = ''
         PATH = " /home/ubuntu/.local/lib/python3.10/site-packages:$PATH"
         SSH_KEY = '511897ab-b3f6-4d2e-a5f0-b43bc9a0a586'
-        EC2_HOST = '172.31.10.16'
+        EC2_HOST = '172.31.10.16.us-east-2.compute.amazonaws.com'
         DEPLOY_PATH = '/home/pyapp'
     }
     agent any
