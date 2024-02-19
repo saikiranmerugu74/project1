@@ -5,6 +5,9 @@ pipeline {
         //githubCredential = 'GITHUB'
         dockerImage = ''
         PATH = " /home/ubuntu/.local/lib/python3.10/site-packages:$PATH"
+        SSH_KEY = '511897ab-b3f6-4d2e-a5f0-b43bc9a0a586'
+        EC2_HOST = '172.31.10.16'
+        DEPLOY_PATH = '/home/pyapp'
     }
     agent any
     stages {
@@ -51,6 +54,25 @@ pipeline {
             steps {
                 sh "ls"
                 sh "python3 -m pytest testapp.py"
+            }
+        }
+        stage('Deployment Checkout') {
+            steps {
+                checkout scmGit(branches: [[name: '*/main']],
+                extensions: [],
+                userRemoteConfigs: [[url: 'https://github.com/saikiranmerugu74/project1.git']]) 
+                
+            }
+        }
+        stage('Deploy to EC2') {
+            steps {
+                script {
+                    // Use SSH agent to connect to the EC2 instance
+                    sshagent(credentials: ['511897ab-b3f6-4d2e-a5f0-b43bc9a0a586']) {
+                        // Copy your artifact to the EC2 instance
+                        sh "scp -i ${SSH_KEY} app.py ec2-user@${EC2_HOST}:${DEPLOY_PATH}"
+                    }
+                }
             }
         }
     }
