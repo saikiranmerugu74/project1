@@ -7,7 +7,7 @@ pipeline {
         PATH = " /home/ubuntu/.local/lib/python3.10/site-packages:$PATH"
         SSH_KEY = '3.147.52.34'
         EC2_HOST = '3.144.122.234'
-        DEPLOY_PATH = '/home/pyapp'
+        DEPLOY_PATH = '/home'
     }
     agent any
     stages {
