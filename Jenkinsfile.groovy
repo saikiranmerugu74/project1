@@ -5,9 +5,10 @@ pipeline {
         //githubCredential = 'GITHUB'
         dockerImage = ''
         PATH = " /home/ubuntu/.local/lib/python3.10/site-packages:$PATH"
-        SSH_KEY = 'deployserver'
+        //SSH_KEY = 'deployserver'
         EC2_HOST = 'ec2-3-144-122-234.us-east-2.compute.amazonaws.com'
         DEPLOY_PATH = '/home'
+        EC2_INSTANCE_SSH_KEY_CREDENTIALS = credentials('deployserver')
     }
     agent any
     stages {
@@ -59,10 +60,19 @@ pipeline {
         stage('Deploy to EC2') {
             steps {
                 script {
-                    // Use SSH agent to connect to the EC2 instance
-                    sshagent(credentials: ['3.147.52.3']) {
-                        // Copy your artifact to the EC2 instance
-                        sh "scp ${img} ubuntu@${EC2_HOST}:${DEPLOY_PATH}"
+                    // Copy the Docker image to the EC2 instance
+                    sshagent(['deployserver']) {
+                        sh "scp -i ${EC2_INSTANCE_SSH_KEY} ${img}.tar.gz ec2-user@${EC2_HOST}:/home/"
+                    }
+
+                    // SSH into the EC2 instance and load the Docker image
+                    sshagent(['deployserver']) {
+                        sh "ssh -i ${EC2_INSTANCE_SSH_KEY} ec2-user@${EC2_HOST} 'docker load -i /home/${img}'"
+                    }
+
+                    // Run your Docker container on the EC2 instance
+                    sshagent(['deployserver']) {
+                        sh "ssh -i ${EC2_INSTANCE_SSH_KEY} ec2-user@${EC2_HOST} 'docker run -d -p 80:80 ${img}'"
                     }
                 }
             }
