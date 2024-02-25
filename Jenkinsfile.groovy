@@ -5,7 +5,7 @@ pipeline {
         //githubCredential = 'GITHUB'
         dockerImage = ''
         PATH = " /home/ubuntu/.local/lib/python3.10/site-packages:$PATH"
-        SSH_KEY = '511897ab-b3f6-4d2e-a5f0-b43bc9a0a586'
+        SSH_KEY = '3.147.52.34'
         EC2_HOST = '3.144.122.234'
         DEPLOY_PATH = '/home/pyapp'
     }
