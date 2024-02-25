@@ -60,7 +60,7 @@ pipeline {
             steps {
                 script {
                     // Use SSH agent to connect to the EC2 instance
-                    sshagent(credentials: ['511897ab-b3f6-4d2e-a5f0-b43bc9a0a586']) {
+                    sshagent(credentials: ['3.147.52.3']) {
                         // Copy your artifact to the EC2 instance
                         sh "scp -i ${SSH_KEY} app.py ec2-user@${EC2_HOST}:${DEPLOY_PATH}"
                     }
