@@ -62,7 +62,7 @@ pipeline {
                     // Use SSH agent to connect to the EC2 instance
                     sshagent(credentials: ['3.147.52.3']) {
                         // Copy your artifact to the EC2 instance
-                        sh "scp -i ${SSH_KEY} ${JOB_NAME} ubuntu@${EC2_HOST}:${DEPLOY_PATH}"
+                        sh "scp ${img} ubuntu@${EC2_HOST}:${DEPLOY_PATH}"
                     }
                 }
             }
