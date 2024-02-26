@@ -6,7 +6,7 @@ pipeline {
         dockerImage = ''
         PATH = " /home/ubuntu/.local/lib/python3.10/site-packages:$PATH"
         //SSH_KEY = 'deployserver'
-        EC2_HOST = 'ec2-3-144-122-234.us-east-2.compute.amazonaws.com'
+        EC2_HOST = 'ec2-3-12-146-98.us-east-2.compute.amazonaws.com'
         DEPLOY_PATH = '/home'
         EC2_INSTANCE_SSH_KEY_CREDENTIALS = credentials('deployserver')
     }
