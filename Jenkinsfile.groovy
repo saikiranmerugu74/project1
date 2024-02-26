@@ -62,18 +62,19 @@ pipeline {
                 script {
                     // Copy the Docker image to the EC2 instance
                     sshagent(['deployserver']) {
-                        sh "scp -o StrictHostKeyChecking=no  ${img} ubuntu@${EC2_HOST}:/home/"
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker run -d -p 80:80 --name ${img}'"
+                        //sh "ssh -o StrictHostKeyChecking=no  app.py ubuntu@${EC2_HOST}:/home/"
                     }
 
                     // SSH into the EC2 instance and load the Docker image
-                    sshagent(['deployserver']) {
-                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker load -i /home/${img}'"
-                    }
+                    //sshagent(['deployserver']) {
+                        //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker load -i /home/${img}'"
+                    //}
 
                     // Run your Docker container on the EC2 instance
-                    sshagent(['deployserver']) {
-                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker run -d -p 80:80 ${img}'"
-                    }
+                    //sshagent(['deployserver']) {
+                        //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker run -d -p 80:80 ${img}'"
+                    //}
                 }
             }
         }
