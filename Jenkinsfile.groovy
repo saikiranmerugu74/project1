@@ -62,17 +62,17 @@ pipeline {
                 script {
                     // Copy the Docker image to the EC2 instance
                     sshagent(['deployserver']) {
-                        sh "scp -i ${EC2_INSTANCE_SSH_KEY} ${img}.tar.gz ec2-user@${EC2_HOST}:/home/"
+                        sh "scp  ${img} ubuntu@${EC2_HOST}:/home/"
                     }
 
                     // SSH into the EC2 instance and load the Docker image
                     sshagent(['deployserver']) {
-                        sh "ssh -i ${EC2_INSTANCE_SSH_KEY} ec2-user@${EC2_HOST} 'docker load -i /home/${img}'"
+                        sh "ssh ubuntu@${EC2_HOST} 'docker load -i /home/${img}'"
                     }
 
                     // Run your Docker container on the EC2 instance
                     sshagent(['deployserver']) {
-                        sh "ssh -i ${EC2_INSTANCE_SSH_KEY} ec2-user@${EC2_HOST} 'docker run -d -p 80:80 ${img}'"
+                        sh "ssh ubuntu@${EC2_HOST} 'docker run -d -p 80:80 ${img}'"
                     }
                 }
             }
