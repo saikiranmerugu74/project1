@@ -62,7 +62,7 @@ pipeline {
                 script {
                     // Copy the Docker image to the EC2 instance
                     sshagent(['deployserver']) {
-                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker run -d -p 80:80 --name newpythonwebapp ${img}'"
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker run -d -p 8000:8000 --name newpythonwebapp ${img}'"
                         //sh "ssh -o StrictHostKeyChecking=no  app.py ubuntu@${EC2_HOST}:/home/"
                     }
 
