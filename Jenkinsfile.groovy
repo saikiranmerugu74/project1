@@ -2,10 +2,8 @@ pipeline {
     environment {
         registry = "saikiranmerugu74/mypythonapp" //To push an image to Docker Hub, you must first name your local image using your Docker Hub username and the repository name that you created through Docker Hub on the web.
         registryCredential = 'dockerhub_id'
-        //githubCredential = 'GITHUB'
         dockerImage = ''
         PATH = " /home/ubuntu/.local/lib/python3.10/site-packages:$PATH"
-        //SSH_KEY = 'deployserver'
         EC2_HOST = 'ec2-3-12-146-98.us-east-2.compute.amazonaws.com'
         DEPLOY_PATH = '/home'
         EC2_INSTANCE_SSH_KEY_CREDENTIALS = credentials('deployserver')
@@ -57,26 +55,25 @@ pipeline {
                 sh "python3 -m pytest testapp.py"
             }
         }
-        stage('Deploy to EC2') {
+        stage('Deploy to EC2') {  
             steps {
                 script {
-                    // Copy the Docker image to the EC2 instance
                     sshagent(['deployserver']) {
-                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker run -d -p 8000:8000 --name newpythonwebapp ${img}'"
-                        //sh "ssh -o StrictHostKeyChecking=no  app.py ubuntu@${EC2_HOST}:/home/"
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker pull ${img}'"
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker-compose up -d'"
+                        //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker run -d -p 8000:8000 --name newpythonwebapp ${img}'"
                     }
 
-                    // SSH into the EC2 instance and load the Docker image
-                    //sshagent(['deployserver']) {
-                        //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker load -i /home/${img}'"
-                    //}
-
-                    // Run your Docker container on the EC2 instance
-                    //sshagent(['deployserver']) {
-                        //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker run -d -p 80:80 ${img}'"
-                    //}
                 }
             }
         }
+        //stage('Run Prometheus Container') {
+            //steps {
+                //script {
+                    // Run Prometheus Docker container
+                    //sh 'docker run -d -p 9090:9090 --name prometheus -v /path/to/prometheus:/etc/prometheus prom/prometheus'
+                //}
+            //}
+        //}
     }
 }

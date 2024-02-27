@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  web-app:
+    build: .
+    container_name: newpythonwebapp
+    ports:
+      - "8000:8000"
+      - "8001:8001"  # Expose Prometheus metrics port
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus:/etc/prometheus
+    ports:
+      - "9090:9090"
