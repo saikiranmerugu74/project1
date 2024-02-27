@@ -59,7 +59,8 @@ pipeline {
                 script {
                     sshagent(['deployserver']) {
                         //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker run -d -p 8000:8000 --name newpythonwebapp ${img}'"
-                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker-compose up --build'"
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'ls'"
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker-compose up -d --build'"
                     }
 
                 }
@@ -70,7 +71,7 @@ pipeline {
                 //script {
                     //sshagent(['deployserver']) {
                         //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker run -d -p 9090:9090 --name prometheus -v /home/prom:/etc/prometheus prom/prometheus'"
-                        //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker-compose up'"
+                        //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker compose up -d'"
                     //}
                 //}
             //}
