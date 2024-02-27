@@ -58,8 +58,8 @@ pipeline {
             steps {
                 script {
                     sshagent(['deployserver']) {
-                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker stop $(docker ps -a | grep ${JOB_NAME} | awk \'{print $1}\')'"
-                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker rmi $(docker images | grep ${registry} | awk \'{print $3}\') --force'"
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker stop $(docker ps -a | grep ${JOB_NAME})'"
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker rmi $(docker images | grep ${registry}) --force'"
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker rm ${JOB_NAME}'"
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker run -d -p 8000:8000 --name newpythonwebapp ${img}'"
                         
