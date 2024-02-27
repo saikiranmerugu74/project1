@@ -68,8 +68,10 @@ pipeline {
         stage('Run Prometheus Container') {
             steps {
                 script {
-                    sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker run -d -p 9090:9090 --name prometheus -v /home/prom:/etc/prometheus prom/prometheus'"
-                    sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker-compose up'"
+                    sshagent(['deployserver']) {
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker run -d -p 9090:9090 --name prometheus -v /home/prom:/etc/prometheus prom/prometheus'"
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker-compose up'"
+                    }
                 }
             }
         }
