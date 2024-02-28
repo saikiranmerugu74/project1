@@ -1,5 +1,5 @@
 import pytest
-from app import app  # Replace 'your_flask_app_module' with the actual module name
+from app.py import app  
 import requests
 
 @pytest.fixture
