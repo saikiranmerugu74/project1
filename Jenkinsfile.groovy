@@ -49,11 +49,11 @@ pipeline {
                 sh label: '', script: "docker run -d --name ${JOB_NAME} -p 5000:5000 ${img}"
             }
         }
-        //stage ('Test'){
-            //steps {
-                //sh "python3 -m pytest testapp.py"
-            //}
-        //}
+        stage ('Test'){
+            steps {
+                sh "python3 -m pytest testapp.py"
+            }
+        }
         stage('Deploy on Ec2') {  
             steps {
                 script {
