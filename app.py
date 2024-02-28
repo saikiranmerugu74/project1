@@ -34,7 +34,7 @@ REQUEST_LATENCY = Histogram(
 def hello():
     start_time = time.time()
     REQUEST_COUNT.labels('GET', '/', 200).inc()
-response = jsonify(message='Hello, world!')
+    response = jsonify(message='Hello, world!')
     REQUEST_LATENCY.labels('GET', '/').observe(time.time() - start_time)
     return response
 if __name__ == '__main__':
