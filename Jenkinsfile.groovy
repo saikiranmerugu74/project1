@@ -54,25 +54,19 @@ pipeline {
                 //sh "python3 -m pytest testapp.py"
             //}
         //}
-        stage('Checkout on EC2') {  
+        stage('Deploy on Ec2') {  
             steps {
                 script {
                     sshagent(['deployserver']) {
                         //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker run -d -p 8000:8000 --name newpythonwebapp ${img}'"
-                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'checkout([\$class: \'scmGit\', branches: [[name: '*/main']],extensions: [],userRemoteConfigs: [[url: 'https://github.com/saikiranmerugu74/project1.git']]])'"
-
-                    }
-
-                }
-            }
-        }
-        stage('Deploy to Ec2') {
-            steps {
-                script {
-                    sshagent(['deployserver']) {
+                        //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'checkout([\$class: \'scmGit\', branches: [[name: '*/main']],extensions: [],userRemoteConfigs: [[url: 'https://github.com/saikiranmerugu74/project1.git']]])'"
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'git clone https://github.com/saikiranmerugu74/project1.git -b main'"
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'cd /project1'"
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'ls'"
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker-compose up -d --build'"
+
                     }
+
                 }
             }
         }
