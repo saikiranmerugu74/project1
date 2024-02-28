@@ -11,7 +11,7 @@ if __name__ == '__main__':
     #app.run(debug=True)
     app.run(host='0.0.0.0', port=8000)'''
 
-
+import prometheus_client
 from flask import Flask, jsonify, request
 from prometheus_client import make_wsgi_app, Counter, Histogram
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
