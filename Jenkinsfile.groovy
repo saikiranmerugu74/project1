@@ -54,7 +54,7 @@ pipeline {
                 //sh "python3 -m pytest testapp.py"
             //}
         //}
-        stage('Checkout') {  
+        stage('Checkout on EC2') {  
             steps {
                 script {
                     sshagent(['deployserver']) {
@@ -66,7 +66,7 @@ pipeline {
                 }
             }
         }
-        stage('Deploy to ec2') {
+        stage('Deploy to Ec2') {
             steps {
                 script {
                     sshagent(['deployserver']) {
