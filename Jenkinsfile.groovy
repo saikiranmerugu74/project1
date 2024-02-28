@@ -54,28 +54,27 @@ pipeline {
                 //sh "python3 -m pytest testapp.py"
             //}
         //}
-        stage('Deploy to EC2') {  
+        stage('Checkout') {  
             steps {
                 script {
                     sshagent(['deployserver']) {
                         //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker run -d -p 8000:8000 --name newpythonwebapp ${img}'"
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'checkout([\$class: \'scmGit\', branches: [[name: '*/main']],extensions: [],userRemoteConfigs: [[url: 'https://github.com/saikiranmerugu74/project1.git']]])'"
-                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'ls'"
-                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker-compose up -d --build'"
+
                     }
 
                 }
             }
         }
-        //stage('Run Prometheus Container') {
-            //steps {
-                //script {
-                    //sshagent(['deployserver']) {
-                        //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker run -d -p 9090:9090 --name prometheus -v /home/prom:/etc/prometheus prom/prometheus'"
-                        //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker compose up -d'"
-                    //}
-                //}
-            //}
-        //}
+        stage('Deploy to ec2') {
+            steps {
+                script {
+                    sshagent(['deployserver']) {
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'ls'"
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker-compose up -d --build'"
+                    }
+                }
+            }
+        }
     }
 }
