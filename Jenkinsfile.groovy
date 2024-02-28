@@ -59,9 +59,7 @@ pipeline {
                 script {
                     sshagent(['deployserver']) {
                         //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker run -d -p 8000:8000 --name newpythonwebapp ${img}'"
-                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'checkout scmGit(branches: [[name: '*/main']],extensions: [],userRemoteConfigs: [[url: 'https://github.com/saikiranmerugu74/project1.git']]])'"
-                        //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'extensions: [],'"
-                        //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'userRemoteConfigs: [[url: 'https://github.com/saikiranmerugu74/project1.git']]) '"
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'checkout(scmGit, branches: [[name: '*/main']],extensions: [],userRemoteConfigs: [[url: 'https://github.com/saikiranmerugu74/project1.git']]])'"
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'ls'"
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker-compose up -d --build'"
                     }
