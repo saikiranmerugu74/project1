@@ -4,7 +4,7 @@ pipeline {
         registryCredential = 'dockerhub_id'
         dockerImage = ''
         PATH = " /home/ubuntu/.local/lib/python3.10/site-packages:$PATH"
-        EC2_HOST = 'ec2-3-141-30-30.us-east-2.compute.amazonaws.com'
+        EC2_HOST = 'ec2-13-59-37-88.us-east-2.compute.amazonaws.com'
         DEPLOY_PATH = '/home'
         EC2_INSTANCE_SSH_KEY_CREDENTIALS = credentials('deployserver')
     }
@@ -59,6 +59,9 @@ pipeline {
                 script {
                     sshagent(['deployserver']) {
                         //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker run -d -p 8000:8000 --name newpythonwebapp ${img}'"
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'checkout scmGit(branches: [[name: '*/main']],]"
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'extensions: [],'"
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'userRemoteConfigs: [[url: 'https://github.com/saikiranmerugu74/project1.git']]) '"
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'ls'"
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker-compose up -d --build'"
                     }
