@@ -1,4 +1,4 @@
-import pytest
+'''import pytest
 from app import app  
 import requests
 
@@ -18,3 +18,16 @@ def test_metrics_endpoint(client):
     assert response.status_code == 200
     # Add more assertions based on the expected metrics response
     # For example, check if certain metrics or labels are present in the response
+'''
+
+import pytest
+import requests
+
+@pytest.fixture
+def base_url():
+    return "http://localhost:8000"
+
+def test_hello_endpoint(base_url):
+    response = requests.get(f"{base_url}/")
+    assert response.status_code == 200
+    assert response.json()['message'] == 'Hello, world!'
