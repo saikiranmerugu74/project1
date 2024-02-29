@@ -1,11 +1,10 @@
 pipeline {
     environment {
-        registry = "saikiranmerugu74/mypythonapp" //To push an image to Docker Hub, you must first name your local image using your Docker Hub username and the repository name that you created through Docker Hub on the web.
+        registry = "saikiranmerugu74/mypythonapp"
         registryCredential = 'dockerhub_id'
         dockerImage = ''
         PATH = " /home/ubuntu/.local/lib/python3.10/site-packages:$PATH"
         EC2_HOST = 'ec2-3-128-171-105.us-east-2.compute.amazonaws.com'
-        //DEPLOY_PATH = '/home'
         EC2_INSTANCE_SSH_KEY_CREDENTIALS = credentials('deployserver')
     }
     agent any
@@ -58,18 +57,11 @@ pipeline {
             steps {
                 script {
                     sshagent(['deployserver']) {
-                        //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker run -d -p 8000:8000 --name newpythonwebapp ${img}'"
-                        //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'checkout([\$class: \'scmGit\', branches: [[name: '*/main']],extensions: [],userRemoteConfigs: [[url: 'https://github.com/saikiranmerugu74/project1.git']]])'"
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'git clone https://github.com/saikiranmerugu74/project1.git -b main'"
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'cp -r project1/* /home/ubuntu'"
-                        //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'cd project1/'"
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'ls'"
-                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'pwd'"
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker-compose up -d --build'"
-                        //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'python3 -m pytest testapp.py'"
-
-                    }
-
+                        }
                 }
             }
         }
