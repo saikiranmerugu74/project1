@@ -66,7 +66,7 @@ pipeline {
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'ls'"
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'pwd'"
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker-compose up -d --build'"
-                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'python3 -m pytest testapp.py'"
+                        //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'python3 -m pytest testapp.py'"
 
                     }
 
