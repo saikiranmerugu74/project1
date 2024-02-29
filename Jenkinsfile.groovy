@@ -46,7 +46,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh label: '', script: "docker run -d --name ${JOB_NAME} -p 5000:5000 ${img}"
+                sh label: '', script: "docker run -d --name ${JOB_NAME} -p 8000:8000 ${img}"
             }
         }
         //stage ('Test'){
