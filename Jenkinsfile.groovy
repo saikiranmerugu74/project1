@@ -49,11 +49,11 @@ pipeline {
                 sh label: '', script: "docker run -d --name ${JOB_NAME} -p 5000:5000 ${img}"
             }
         }
-        stage ('Test'){
-            steps {
-                sh "python3 -m pytest testapp.py"
-            }
-        }
+        //stage ('Test'){
+            //steps {
+                //sh "python3 -m pytest testapp.py"
+            //}
+        //}
         stage('Deploy on Ec2') {  
             steps {
                 script {
@@ -66,6 +66,7 @@ pipeline {
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'ls'"
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'pwd'"
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker-compose up -d --build'"
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'python3 -m pytest testapp.py'"
 
                     }
 
