@@ -4,7 +4,7 @@ pipeline {
         registryCredential = 'dockerhub_id'
         dockerImage = ''
         PATH = " /home/ubuntu/.local/lib/python3.10/site-packages:$PATH"
-        EC2_HOST = 'ec2-3-21-158-247.us-east-2.compute.amazonaws.com'
+        EC2_HOST = 'ec2-3-12-102-75.us-east-2.compute.amazonaws.com'
         EC2_INSTANCE_SSH_KEY_CREDENTIALS = credentials('deployserver')
     }
     agent any
@@ -19,9 +19,12 @@ pipeline {
         }
         stage ('Clean Up'){
             steps{
-                sh returnStatus: true, script: 'docker stop $(docker ps -a | grep ${JOB_NAME} | awk \'{print $1}\')'
-                sh returnStatus: true, script: 'docker rmi $(docker images | grep ${registry} | awk \'{print $3}\') --force' //this will delete all images
-                sh returnStatus: true, script: 'docker rm ${JOB_NAME}'
+                //sh returnStatus: true, script: 'docker stop $(docker ps -a | grep ${JOB_NAME} | awk \'{print $1}\')'
+                //sh returnStatus: true, script: 'docker rmi $(docker images | grep ${registry} | awk \'{print $3}\') --force' //this will delete all images
+                //sh returnStatus: true, script: 'docker rm ${JOB_NAME}'
+                sh returnStatus: true, script: 'docker stop $(docker ps -a -q)'
+                sh returnStatus: true, script: 'docker rm $(docker ps -a -q)'
+
             }
         }
         stage('Build Image') {
@@ -57,6 +60,8 @@ pipeline {
             steps {
                 script {
                     sshagent(['deployserver']) {
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker stop $(docker ps -a -q)'"
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker rm $(docker ps -a -q)'"
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'git clone https://github.com/saikiranmerugu74/project1.git -b main'"
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'cp -r project1/* /home/ubuntu'"
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'ls'"
