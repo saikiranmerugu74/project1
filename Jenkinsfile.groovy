@@ -64,8 +64,8 @@ pipeline {
                         //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker rm '$(docker ps -a -q)''"
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'git clone https://github.com/saikiranmerugu74/project1.git -b main'"
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'cp -r project1/* /home/ubuntu'"
-                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'pwd'"
-                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'ls'"
+                        //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'pwd'"
+                        //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'ls'"
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker-compose up -d --build'"
                         }
 
