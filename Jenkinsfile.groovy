@@ -19,9 +19,6 @@ pipeline {
         }
         stage ('Clean Up'){
             steps{
-                //sh returnStatus: true, script: 'docker stop $(docker ps -a | grep ${JOB_NAME} | awk \'{print $1}\')'
-                //sh returnStatus: true, script: 'docker rmi $(docker images | grep ${registry} | awk \'{print $3}\') --force' //this will delete all images
-                //sh returnStatus: true, script: 'docker rm ${JOB_NAME}'
                 sh returnStatus: true, script: 'docker stop $(docker ps -a -q)'
                 sh returnStatus: true, script: 'docker rm $(docker ps -a -q)'
 
@@ -31,7 +28,6 @@ pipeline {
             steps {
                 script {
                     img = registry + ":${env.BUILD_ID}"
-                    println ("${img}")
                     dockerImage = docker.build("${img}")
                 }
             }
@@ -62,6 +58,8 @@ pipeline {
                     sshagent(['deployserver']) {
                         //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker stop '$(docker ps -a -q)''"
                         //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker rm '$(docker ps -a -q)''"
+                        sh returnStatus: true, "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} script: 'docker stop $(docker ps -a -q)'"
+                        sh returnStatus: true, "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} script: 'docker rm $(docker ps -a -q)'"
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'git clone https://github.com/saikiranmerugu74/project1.git -b main'"
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'cp -r project1/* /home/ubuntu'"
                         //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'pwd'"
