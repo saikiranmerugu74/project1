@@ -4,7 +4,7 @@ pipeline {
         registryCredential = 'dockerhub_id'
         dockerImage = ''
         PATH = " /home/ubuntu/.local/lib/python3.10/site-packages:$PATH"
-        EC2_HOST = 'ec2-3-12-102-75.us-east-2.compute.amazonaws.com'
+        EC2_HOST = 'ec2-3-15-158-213.us-east-2.compute.amazonaws.com'
         EC2_INSTANCE_SSH_KEY_CREDENTIALS = credentials('deployserver')
     }
     agent any
