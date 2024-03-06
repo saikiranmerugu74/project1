@@ -4,7 +4,7 @@ pipeline {
         registryCredential = 'dockerhub_id'
         dockerImage = ''
         PATH = " /home/ubuntu/.local/lib/python3.10/site-packages:$PATH"
-        EC2_HOST = 'ec2-3-15-158-213.us-east-2.compute.amazonaws.com'
+        EC2_HOST = 'ec2-52-14-201-165.us-east-2.compute.amazonaws.com'
         EC2_INSTANCE_SSH_KEY_CREDENTIALS = credentials('deployserver')
     }
     agent any
@@ -58,6 +58,7 @@ pipeline {
                     sshagent(['deployserver']) {
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'git clone https://github.com/saikiranmerugu74/project1.git -b main'"
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'cp -r project1/* /home/ubuntu'"
+                        //sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'ls'"
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} 'docker-compose up -d --build'"
                         }
 
