@@ -3,7 +3,7 @@ import requests
 
 @pytest.fixture
 def base_url():
-    return "http://18.191.54.139:8000"
+    return "http://18.119.121.247:8000"
 
 def test_hello_endpoint(base_url):
     response = requests.get(f"{base_url}/")
